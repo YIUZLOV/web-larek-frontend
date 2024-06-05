@@ -4,8 +4,3 @@ export interface BasketData {
     pooducts: AddedProductData[];
     totalPrice: number;
 }
-
-export interface BasketSettings {
-    pooducts: AddedProductData[];
-    totalPrice: number;
-}

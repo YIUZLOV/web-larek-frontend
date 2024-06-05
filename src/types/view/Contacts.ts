@@ -3,8 +3,3 @@ export interface ContactsData {
     phone: string;
     isCorrected: boolean;
 }
-
-export interface ContactsSettings {
-    email: string;
-    phone: string;
-}

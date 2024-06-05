@@ -5,10 +5,3 @@ export interface CardData {
     image: string;
     price: number;
 }
-
-export interface CardSettings {
-    category: string;
-    title: string;
-    image: string;
-    price: number;
-}

@@ -4,7 +4,8 @@ import {
     PaymentMethod,
     Contacts,
     Order,
-    OrderResult
+    OrderResult,
+    IProductApi
 } from "./Index";
 
 export type ProductData = {
@@ -26,7 +27,16 @@ export enum AppStateModals {
 	none = 'modal:none',
 }
 
-export interface AppSate {
+export enum AppStateChanges {
+	product = 'change:product',
+	modal = 'change:modal',
+	modalMessage = 'change:modalMessage',
+	selectedProduct = 'change:selectedProduct',
+	basket = 'change:basket',
+	order = 'change:order',
+}
+
+export interface AppState {
     product: Product[];
 
     selectedProduct: Product | null;
@@ -52,4 +62,17 @@ export interface AppSate {
 
 	openModal(modal: AppStateModals): void;
 	setMessage(message: string | null, isError: boolean): void;
+}
+
+// Настройки модели данных
+export interface AppStateSettings {
+	formatCurrency: (value: number) => string;
+	storageKey: string;
+	// Функция, которая будет вызываться при изменении состояния
+	onChange: (changed: AppStateChanges) => void;
+}
+
+// Конструктор модели данных
+export interface AppStateConstructor {
+	new (api: IProductApi, settings: AppStateSettings): AppState;
 }

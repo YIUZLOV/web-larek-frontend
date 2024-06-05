@@ -3,8 +3,3 @@ export interface PaymentData {
     address: string;
     isCorrected: boolean;
 }
-
-export interface PaymentSettings {
-    paymentMethod: string;
-    address: string;
-}
