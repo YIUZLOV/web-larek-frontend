@@ -36,9 +36,9 @@ const paymentMethod = new FormPayment(cloneTemplate(paymentMethodTemplate), even
 const contacts = new FormContacts(cloneTemplate(contactsTemplate), events);
 const productsContainer = document.querySelector('.gallery');
 
-events.onAll((event) => {
-    console.log(event.eventName, event.data);
-})
+// events.onAll((event) => {
+//     console.log(event.eventName, event.data);
+// })
 
 //назначаем события
 
@@ -163,7 +163,6 @@ const getData = async function() {
     try {
         const data = await api.getProduct();
         productData.products = data;
-        console.log(productData.products);
     } catch (err) {
         console.log(err);
     }
