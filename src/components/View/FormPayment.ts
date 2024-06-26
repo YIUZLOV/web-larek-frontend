@@ -27,6 +27,10 @@ export class FormPayment implements IFormPayment {
         this.butttonChoice.forEach((button) => {
             button.addEventListener('click', () => {
                 this.payment = button.name;
+                this.butttonChoice.forEach((button) => {
+                    button.classList.remove('button_alt-active');
+                })
+                button.classList.toggle('button_alt-active');
                 events.emit('formPayment:paymentChoice', button);
             })
         })
@@ -44,10 +48,10 @@ export class FormPayment implements IFormPayment {
         })
     }
 
-    set paymentChoice(payment: string) {
-        this.payment = payment;
+    set paymentChoice(paymentMethod: string) {
+        this.payment = paymentMethod;
         this.butttonChoice.forEach((item) => {
-            item.classList.toggle('button_alt-active', item.name === payment);
+            item.name === paymentMethod;
         });
     }
 

@@ -1,5 +1,4 @@
 import { IProduct } from "../../types";
-import { IEvents } from "../base/events";
 
 export interface IBasketData {
     basketProducts: IProduct[];
@@ -13,11 +12,9 @@ export interface IBasketData {
 
 export class BasketData implements IBasketData {
     basketProducts: IProduct[];
-
     constructor() {
-        this.basketProducts = [];
+        this.basketProducts = []
     }
-
     getCounter() {
         return this.basketProducts.length;
     }
@@ -27,15 +24,26 @@ export class BasketData implements IBasketData {
     }
 
     setSelectProduct(product: IProduct) {
-        this.basketProducts.push(product)
+        localStorage.setItem(product.id, JSON.stringify(product));
+        this.basketProducts.push(JSON.parse(localStorage.getItem((product.id))));
     }
+
+    getLocalData() {{
+        for (let i = 0; i < localStorage.length; i ++) {
+            let key = localStorage.key(i);
+            let value = JSON.parse(localStorage.getItem((key)))
+            this.basketProducts.push(value);
+        };
+    }}
 
     deleteProduct(product: IProduct) {
         this.basketProducts = this.basketProducts.filter(item => item !== product)
+        localStorage.removeItem(product.id);
     }
 
     clearBasket() {
         this.basketProducts = [];
+        localStorage.clear();
     }
 
     isProductInBasket(id: string): boolean {

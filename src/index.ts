@@ -44,12 +44,15 @@ const productsContainer = document.querySelector('.gallery');
 
 // Вывод карточек на главную страницу и окно с превью
 events.on('products:get', () => {
-    productData.products.map((card) => {
+    productData.products.forEach((card) => {
         const cardInstant = new Product(cloneTemplate(cardTemplate), events, {
             onClick: () => events.emit('card:select', card),
         })
         productsContainer.append(cardInstant.render(card));
     })
+    basketData.getLocalData();
+    basket.renderPageBasketCounter(basketData.getCounter())
+
 })
 
 events.on('card:select', (card: IProduct) => {
@@ -72,7 +75,7 @@ events.on('basket:open', () => {
     modal.render();
 })
 
-events.on('card:addBasket', (product: IProduct) => {
+events.on('card:addBasket', () => {
     basketData.setSelectProduct(productData.preview);
     events.emit('basket:update');
     modal.close();
@@ -142,16 +145,15 @@ events.on('formErrors:change', (errors: Partial<IOrderForm>) => {
 
 events.on('open:confirm', async () => {
     try {
-       const data = await api.postOrderLot(formData.getOrderLot());
-		console.log(data);	
+        const data = await api.postOrderLot(formData.getOrderLot());
+        const confirm = new Confirm(cloneTemplate(confirmTemplate), events);
+        modal.content = confirm.render(data.total);
+        basketData.clearBasket();
+        events.emit('basket:update');
+        modal.render();
     } catch (err) {
         console.log((err));
     }
-    const confirm = new Confirm(cloneTemplate(confirmTemplate), events);
-    modal.content = confirm.render(basketData.getSumTotal());
-    basketData.clearBasket();
-    events.emit('basket:update');
-    modal.render(); 
 })
 
 events.on('confirm:close', () => {
